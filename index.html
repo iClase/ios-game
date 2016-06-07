@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- META -->
+    <title>Jaguar - Indiana Jones Demo</title>    
+    <meta charset="utf-8"/>
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="Jaguar LucasArts Adventure Game Engine">
+    <meta name="keywords" content="LucasArts, Graphic, Adventure, Grimm Fandango, Monkey Island, Game Engine, Game Builder, Game Maker, Point and Click">
+    <meta name="author" content="Crusader12">
+    <meta name="copyright" content="Crusader12">
+	
+	<!-- SETUP MOBILE VIEWPORT & DISABLE TAP HIGHLIGHT COLOR ON WINDOWS MOBILE -->
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    
+    <!-- JAGUAR CORE CSS [ DO NOT EDIT ] -->
+    <link rel="stylesheet"  href="Jaguar/css/jquery-jaguar.css" type="text/css" media="all" />
+
+	<!-- GAME CSS [ FOR THIS GAME ] -->
+    <link rel="stylesheet" type="text/css" href="Jaguar/css/game_fate_of_atlantis.css"/>    
+
+	<!-- LOAD JAGUAR GAME ENGINE -->
+	<script src="./jquery-2.1.3.min.js"></script>
+	<script src="./jquery-jaguar.js"></script>
+	<script src="./interface.js"></script>
+	<script src="./debug.js"></script>
+	<script src="./physics.js"></script>
+	<script src="./scene.js"></script>
+	<script src="./environment.js"></script>    
+	<script src="./characters.js"></script>
+	<script src="./items.js"></script>
+	<script src="./actions.js"></script>
+	<script src="./secondary_actions.js"></script>
+	<script src="./dialogue.js"></script>
+	<script src="./parser.js"></script>
+	<script src="./cutscenes.js"></script>
+	<script src="./save_load.js"></script>
+	<script src="./audio.js"></script>
+	<!--=====================================================
+		============== PLACE JAGUAR ADDONS HERE ============= 
+        === THIS DEMO REQUIRES THE MAPS AND TALKIE ADDONS ===
+   		=====================================================-->
+	
+    
+
+
+	<!-- JAGUAR GAME ENGINE INIT [ MAIN GAME SETTINGS ] -->
+	<script type="text/javascript">
+		$(document).ready(function(){ 
+			$('#fate_of_atlantis').Jaguar({
+				"skin":"fate_of_atlantis",
+				"title":"Fate of Atlantis Demo",
+				"preload_image":"preload_fate_of_atlantis.gif",
+				"start_as":"Indiana Jones"
+			}); 
+		});
+	</script>
+</head><body>
+
+
+
+<!--===========================================================
+	==================== START ADVENTURE ====================== 
+    === MAIN GAME WRAPPER IS USED TO SUPPLY BASE DIMENSIONS ===
+	===========================================================-->
+<div id="gameWrapper">
+
+	<!-- MAIN GAME CONTAINER -->
+	<div id="fate_of_atlantis">
+
+
+	<!--=========================================================
+		==================== TEASER WINDOW ====================== 
+		=========================================================-->
+        <div id="JAG_Teaser">
+            <img src="Jaguar/chars/indy_still_right.gif">
+	    	<h1>Turn up your speakers and <br/> 
+                click to begin your Adventure!</h1>
+		</div> 
+        
+
+	<!--======================================================================
+		==================== CHARACTER SELECTION WINDOW ====================== 
+        ============== CHARACTER SELECTION ADDON REQUIRED ====================
+		=====================================================================-->
+        <!--
+        <div id="JAG_Select_Char">
+			<div class="JAG_Selectable_Characters">
+		      <img src="Jaguar/chars/indy_still_left.gif" data-character="indianajones">
+		      <img src="Jaguar/chars/sophia_still_right.gif" data-character="sophia">
+		   </div>                
+		   <p>select your character</p>
+		</div>    
+        -->
+        
+
+	<!--=========================================================
+		===================== MAIN CHAPTER ======================
+		=========================================================-->
+    	<ul class="JAG_Chapter" 
+
+        	data-character-indianajones='{
+               	"start_scene":"to_lava_fountain",            
+				"stats":["Experience=0/1000, Strength=500/1000, Health=1000/1000, Wits=100/1000, Punch=550/1200, Lock Picking=20/100"],
+           		"image":"indy_still_down",
+	            "right":"indy_right, indy_still_right", 	
+    	        "left":"indy_left, indy_still_left",
+        	    "down":"indy_down, indy_still_right",    	
+            	"up":"indy_up, indy_still_up",
+	            "talk_image":"indy_talking_right",
+    	        "talk_left":"indy_talking_left", 
+                "talk_right":"indy_talking_right",
+        	    "use_left":"indy_pick_up_left", 
+                "use_right":"indy_pick_up_right",
+				"pick_up_image":"indy_pick_up_right",
+	            "pick_up_left":"indy_pick_up_left", 
+                "pick_up_right":"indy_pick_up_right",
+    	        "give_image":"indy_pick_up_right",
+        	    "give_left":"indy_pick_up_left", 
+                "give_right":"indy_pick_up_right",
+            	"text_color":"#FFFFFF" }'
+        
+			data-speech-indianajones='{
+				"too_far":"You&apos;re not close enough",
+                "too_far_voice":"not_close_enough",
+				"give_voice":"dont_think_that_will_work_1",                
+                "inv_give_voice":"isnt_working_1 %% isnt_working_2 %% isnt_working_3 %% isnt_working_4 %% isnt_working_5",
+                "open_voice":"cant_open_that_1 %% cant_open_that_2",
+				"inv_open_voice":"isnt_opening_1 %% isnt_opening_2",
+                "close_voice":"cant_close_that_1",
+				"inv_close_voice":"isnt_closing_1",
+                "pick_up_voice":"cant_pick_up_1",
+				"inv_pick_up_voice":"already_have_that_1 %% already_have_that_2 %% already_have_that_3 %% already_have_that_4",
+                "look_at_voice":"dont_see_anything_special",
+				"inv_look_at_voice":"dont_see_anything_special",
+                "talk_to_voice":"no_response_1 %% no_response_2 %% no_response_3",
+				"inv_talk_to_voice":"it_doesnt_want_to_talk_1 %% it_doesnt_want_to_talk_2 %% it_doesnt_want_to_talk_3",
+                "use_voice":"wont_work_1 %% wont_work_2 %% wont_work_3",
+				"inv_use_voice":"doesnt_seem_to_work_1 %% doesnt_seem_to_work_2 %% doesnt_seem_to_work_3",
+                "push_voice":"wont_budge_1 %% wont_budge_2 %% wont_budge_3",
+				"inv_push_voice":"doesnt_seem_lke_that_would_work_1 %% doesnt_seem_lke_that_would_work_2 %% doesnt_seem_lke_that_would_work_3",
+                "pull_voice":"isnt_moving_1 %% isnt_moving_2",
+				"inv_pull_voice":"dont_see_anything_to_pull_1 %% dont_see_anything_to_pull_2 %% dont_see_anything_to_pull_3",				
+				"talk_no_more_voice":"they_dont_want_to_talk_1 %% they_dont_want_to_talk_2 %% they_dont_want_to_talk_3",
+				"not_ready_voice":"isnt_ready_1 %% isnt_ready_2" }'
+                
+			data-character-sophia='{
+            	"start_scene":"apartment",
+                "image":"sophia_still_right",
+				"right":"sophia_right, sophia_still_right", 	
+    	        "left":"sophia_left, sophia_still_left",
+        	    "down":"sophia_down, sophia_still_left",    	
+            	"up":"sophia_up, sophia_still_left",                
+   				"stats":["Red Hair=1000/1000, Health=1000/1000, Stealth=100/1000, Lock Picking=20/100"],
+                "text_color":"#3effff" }'
+                
+           data-speech-sophia='{
+				"too_far":"You&apos;re not close enough %% You are too far away.",
+                "too_far_voice":"sophia_not_close_enough",
+				"give_voice":"sophia_dont_think_that_will_work",        
+                "inv_give_voice":"sophia_isnt_working",
+                "open_voice":"sophia_cant_open_that",
+				"inv_open_voice":"sophia_isnt_opening",
+                "close_voice":"sophia_cant_close_that",
+				"inv_close_voice":"sophia_isnt_closing",
+                "pick_up_voice":"sophia_cant_pick_up",
+				"inv_pick_up_voice":"sophia_already_have_that",
+                "look_at_voice":"sophia_dont_see_anything_special",
+				"inv_look_at_voice":"sophia_dont_see_anything_special",
+                "talk_to_voice":"sophia_no_response",
+				"inv_talk_to_voice":"sophia_doesnt_want_to_talk",
+                "use_voice":"sophia_wont_work",
+				"inv_use_voice":"sophia_doesnt_seem_to_work",
+                "push_voice":"sophia_wont_budge",
+				"inv_push_voice":"sophia_doesnt_seem_lke_that_would_work",
+                "pull_voice":"sophia_isnt_moving",
+				"inv_pull_voice":"sophia_dont_see_anything_to_pull",
+				"talk_no_more_voice":"sophia_dont_want_to_talk",
+				"not_ready_voice":"sophia_isnt_ready" }'>
+            
+
+
+		<!--==============================================================
+			===================== OPENING SEQUENCES ======================
+			==============================================================-->
+			<!-- LOGO SPLASH SCREEN -->
+            
+            
+			<!-- PRODUCTION SCREEN -->
+            <li id="production" 
+            	data-scene='{ 
+					"background":"blank.png",
+                	"cutscene":true, "display_time":"3100", "speed":"1500,1500", 
+					"subtitle":"a Crusader12 production", "subtitle_speed":"500,2600", 
+                    "subtitle_color":"#FFFFFF", "subtitle_pos":90, "subtitle_size":100,
+                    "skip_to":"lava_fountain" }'>
+			</li>   
+
+			
+         
+            
+            
+            
+            
+            
+            
+		<!--==========================================================
+			===================== LAVA FOUNTAIN ======================
+			==========================================================-->
+	    	<li id="lava_fountain" 
+            	data-scene='{
+            		"background":"lava_fountain.gif", 
+                    "horizon":"60,100", "pan":true,
+					"subtitle":"catacombs - lava chamber", "subtitle_speed":"3500,3000", "subtitle_color":"#fcd454", "subtitle_pos":55 }'>
+
+
+            	<!-- INDIANA JONES -->
+    	        <div class="JAG_Char" data-name="Indiana Jones" 
+                	data-character='{ "scale":"0.4,0.6", "pos":"20,95", "speed":6500 }'
+                    data-character-indianajones='{
+						"entrance":[
+    	                    ["repeat_count:1"],
+        	                ["walk_to:65,85,300"],
+            	            ["inv_add:lava_fountain_whip"],
+                	        ["inv_add:lava_fountain_desk key"],
+		            		["say_after:Welcome! Jaguar lets you quickly<br>build your own adventure games.||You aren&apos;t limited to pixel art.<br>Any resolution is supported.||Click anywhere to walk.<br>Double-click an Exit to go there immediately."],
+                        	["voice:welcome_1"]
+						]}'>
+				</div>
+                
+                
+	       		<!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia" 
+					data-character='{ "scale":"0.4,0.6", "pos":"20,95", "speed":6500 }'>
+				</div>                 
+
+
+                <!-- WHIP -->
+                <div class="JAG_Item" data-name="whip" 
+                	data-item='{ "type":"object", "pos":"0,0", "hidden":true, "image":"whip.png", "inv_image":"whip_inv.png" }'
+                    data-item-indianajones='{ "inv_look_at_text":"It&apos;s my whip.", "inv_look_at_voice":"my_whip_1 %% my_whip_2" }'>
+				</div>
+
+
+				<!-- DESK KEY -->
+    	        <div class="JAG_Item" data-name="desk key"
+                	data-item='{ "type":"object", "pos":"85,92", "scale":0.2, "hidden":true,
+                        "image":"key.png", "inv_image":"key_inv.png" }'
+                    
+                    data-item-indianajones='{
+                        "inv_look_at_text":"Just a desk key.", "inv_look_at_voice":"desk_key", 
+                        "pick_up":true,
+                        "inv_use":[
+                        	["with:office_desk"],
+                            ["inv_add:office_knife"],
+                            ["inv_remove:lava_fountain_desk key"],
+                        	["say:I confiscated this from one of the students.||Might be useful."],
+                            ["voice:confiscated_1"]
+                        ]}'>
+				</div>
+
+
+                <!-- DISC -->
+                <div class="JAG_Item" data-name="large disc" 
+                	data-item='{ "type":"object", "pos":"85,80", "scale":0.35, "image":"disc.png", "inv_image":"disc_inv.png" }'
+                    data-item-indianajones='{
+	                    "pick_up":[
+    	                	["repeat_count:1"],
+        	                ["stat_strength:+100"],
+            	            ["stat_experience:+100"],
+                	    	["say:This looks handy."],
+                    	    ["voice:looks_handy_1 %% looks_handy_2 %% looks_handy_3"]
+	                    ],
+	                    "pick_up_voice":"ill_need_this_later",
+	                    "look_at_text":"A large disc with markings on it.", "look_at_voice":"large_disc_1",
+    	                "inv_look_at_text":"I don&apos;t recognize the markings.",
+        	            "inv_look_at_voice":"dont_recognize_markings_1" }'>
+				</div>
+
+                
+                <!-- EXIT TO CAVE -->
+                <div class="JAG_Item lava_fountain_exit1" data-name="fountain room exit" 
+                	data-item='{ "type":"exit", "pos":"5,40", "goto":"to_lava_fountain", "exit_overlap":"20,70" }'
+                    data-item-indianajones='{ "next_image":"indy_still_down" }'>
+				</div>
+	        </li>            
+            
+
+
+
+
+
+		<!--=========================================================
+			============ CAVE ENTRANCE TO LAVA FOUNTAIN =============
+			=========================================================-->
+    		<li id="to_lava_fountain" 
+            	data-scene='{
+                	"background":"to_lava_fountain.png", "foreground":"to_lava_fountain_foreground.png",
+                    "horizon":"70,140", 
+	                
+	   				"subtitle":"Press SPACEBAR to pause.", "subtitle_speed":"1000,4000", 
+                    "subtitle_color":"#fcfc54", "subtitle_pos":55, "subtitle_size":130 }'>
+	   
+                
+                <!-- INDIANA JONES -->
+	    	    <div class="JAG_Char" data-name="Indiana Jones"
+                	data-character='{ "scale":"0.45,0.5", "pos":"76,81", "speed":7500, "direction":"left",
+                    	"entrance":[
+                        	["repeat_count:1"],
+                            ["stat_health:-20"]
+                        ] }'>
+				</div>
+                
+                
+	       		<!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia" 
+					data-character='{ "scale":"0.45,0.5", "pos":"76,81", "speed":7500, "direction":"left" }'
+
+	                data-character-indianajones='{
+						"talk_to_text":[
+        	            	[["Wanna carry the crowbar? || You&apos;re crazy."]]	
+            	         ] }'>
+				</div>                
+
+                     
+                <!-- CROWBAR -->
+    	        <div class="JAG_Item" data-name="crowbar"
+					data-item='{ "type":"object", "pos":"60,75", "scale":0.3, "image":"crowbar.png", "inv_image":"crowbar_inv.png",
+                    "highlight_verb":"pick_up" }'
+                     
+                    data-item-sophia='{
+                    	"pick_up":false,
+                        "pick_up_text":"Nah. Let Indy carry that thing." }'
+                     
+                    data-item-indianajones='{
+                        "pick_up":[
+                            ["stat_experience: +25"],
+                         	["say: I have a feeling I&apos;ll need this later."],
+                            ["voice:ill_need_this_later"]
+                         ],                       
+                    	"inv_use":[
+                        	["repeat_count:1"],
+                        	["with:ice_cave_ice"],
+                            ["inv_add:ice_cave_cup"],
+                            ["hide:ice_cave_ice, 0"],
+                            ["play_sound:ice_breaks,1"],
+							["say:I&apos;ve broken the ice.<br>A solid stone cup was frozen in the wall."],
+                            ["voice:broken_ice"]
+						],
+                	    "look_at_text":"I wonder why this crowbar is here.", "look_at_voice":"wonder_crowbar_1 %% wonder_crowbar_2",
+                        "inv_look_at_text":"It&apos;s sturdy.", "inv_look_at_voice":"sturdy_1 %% sturdy_2" }'>
+				</div>                                                       
+                
+                
+	            <!-- EXIT TO FOUNTAIN ROOM -->
+    	        <div class="JAG_Item to_lava_fountain_exit1" data-name="path to fountain room"
+	                data-item='{ "type":"exit", "pos":"70,55",  "goto":"lava_fountain" }'
+                    data-item-indianajones='{
+						"look_at_text":"That leads back into<br/>the lava fountain room.",
+                        "look_at_voice":"leads_back_to_fountain_1 %% leads_back_to_fountain_2",
+                        "next_image":"indy_still_right" }'>
+				</div>
+                
+                        
+            	<!--  EXIT TO LUCASARTS ROOM -->
+                <div class="JAG_Item to_lava_fountain_exit2" data-name="door" 
+                	data-item='{ "type":"exit", "pos":"2,20", "goto":"lucasarts_cave", "exit_overlap":"20,95" }'
+                    data-item-indianajones='{
+                        "look_at_text":"These doors are massive.", "look_at_voice":"doors_are_massive_1",
+                		"next_image":"indy_still_left" }'>
+				</div>
+			</li>
+            
+            
+            
+            
+            
+            
+
+		<!--==========================================================
+			===================== LUCASARTS CAVE =====================
+			==========================================================-->
+		<li id="lucasarts_cave" 
+        	data-scene='{
+            	"background":"lucasarts_cave.png", "foreground":"lucasarts_cave_foreground.png",
+                "horizon":"70,140",
+
+   				"subtitle":"Press F8 to save or load your adventure.", "subtitle_speed":"1000,4000", 
+                "subtitle_color":"#36e0ff", "subtitle_pos":55, "subtitle_size":130 }'>          
+	    
+        
+        	<!-- INDIANA JONES -->
+    		<div class="JAG_Char" data-name="Indiana Jones"
+            	data-character='{ "scale":"0.6,0.6", "pos":"65,82", "speed":6500 }'>
+			</div>
+            
+            
+	       	<!-- SOPHIA -->
+			<div class="JAG_Char" data-name="Sophia" 
+               	data-character='{ "scale":"0.6,0.6", "pos":"65,82", "speed":6500 }'
+                data-character-indianajones='{
+					"talk_to_text":[
+                    	[["Did you notice the markings on the wall? || Duh. Kinda obvious."]]	
+                     ] }'>
+			</div>
+                        
+            
+            <!-- LUCASARTS LOGO -->
+            <div class="JAG_Item lucasarts_logo" data-name="wall markings"
+            	data-item='{ "type":"object", "pos":"20,42" }'
+                data-item-indianajones='{
+                    "look_at_text":"Classics.", "look_at_voice":"classics_1 %% classics_2",
+					"pick_up_text":"It&apos;s securely fastened to the wall.", "pick_up_voice":"securely_fastened_1 %% securely_fastened_2",
+					"push_text":"What did you expect,<br>a big boulder to come rolling down a ramp?", "push_voice":"boulder_1 %% boulder_2" }'>
+			</div>
+                    
+	        
+            <!-- EXIT TO CAVE -->
+	        <div class="JAG_Item lucasarts_cave_exit1" data-name="door"
+            	data-item='{ "type":"exit", "pos":"55,40",  "goto":"to_lava_fountain", "next_pos":"10,65" }'
+                data-item-indianajones='{
+                    "look_at_text":"The path back to the<br>lava fountain room.",
+                    "look_at_voice":"path_to_fountain_room_1",
+   					"next_image":"indy_still_right" }'
+				data-item-sophia='{ "next_image":"sophia_still_right" }'>
+			</div>
+                            
+    
+    		<!-- EXIT TO CENTRAL ROOM -->
+			<div class="JAG_Item lucasarts_cave_exit2" data-name="path to main catacombs" 
+            	data-item='{ "type":"exit", "pos":"30,92", "goto":"main_catacombs", "exit_overlap":"10,10", "next_pos":"62,45" }'
+                data-item-indianajones='{
+                    "look_at_text":"The doorway leads to a central room.",
+                    "look_at_voice":"doorway_to_central_room_1 %% doorway_to_central_room_2",
+					"next_image":"indy_still_right" }'>
+			</div>
+		</li>
+                    
+          
+          
+          
+          
+          
+          
+
+          
+		<!--==========================================================
+			===================== CENTRAL ROOM =======================
+			==========================================================-->
+  			<li id="main_catacombs" 
+            	data-scene='{
+           	    	"background":"main_catacombs.png", 
+                    "horizon":"0,140",
+	               
+					"subtitle":"Define custom stats for point-driven puzzles. || Press CAPS to open Player Stats", 
+                    "subtitle_speed":"1000,4000", "subtitle_color":"#fcd454", "subtitle_pos":55, "subtitle_size":130 }'>          
+        
+        	    
+                <!-- INDIANA JONES -->
+    			<div class="JAG_Char" data-name="Indiana Jones"
+                	data-character='{ "scale":"0.4,0.6", "pos":"65,82", "speed":6500,
+                    	"entrance":[
+                         	["repeat_count:99999"],
+                            ["walk_to:65,55,200"]
+                        ]}'>
+				</div>
+                
+		       	<!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia" 
+        	       	data-character='{ "scale":"0.4,0.6", "pos":"65,82", "speed":6500 }'
+	                data-character-indianajones='{
+						"talk_to_text":[
+        	            	[["So, what do you think about this room? || Nice and spacious."]]	
+            	    ]}'>
+				</div>                
+                
+                    
+	         	<!-- EXIT TO LUCASARTS CAVE -->
+    		    <div class="JAG_Item main_catacombs_exit1" data-name="path to lava fountain"
+                	data-item='{ "type":"exit", "pos":"57,15", "goto":"lucasarts_cave", "exit_overlap":"40,80", "next_pos":"60,98" }'
+                    data-item-indianajones='{ "next_image":"indy_still_up" }'>
+				</div>
+                
+                
+                <!-- EXIT TO ICE CAVES -->
+	            <div class="JAG_Item main_catacombs_exit2" data-name="ice caves" 
+                	data-item='{ "type":"exit", "pos":"75,15", "goto":"ice_cave", "exit_overlap":"40,80", "next_pos":"46,98" }'
+                    data-item-indianajones='{ "next_image":"indy_still_up" }'>
+				</div>
+			</li>    
+                    
+                    
+                    
+                    
+                    
+                    
+
+		<!--==========================================================
+			========================= ICE CAVES ======================
+			==========================================================-->
+   			<li id="ice_cave" 
+            	data-scene='{
+          	    	"background":"ice_cave.png", "foreground":"ice_cave_foreground.png",
+                    "horizon":"0,140", 
+                	"music":"darkness", "music_volume":0.5, "music_vol_speed":2500,
+					"ambient":"ambient_wind", "ambient_volume":0.25, "ambient_vol_speed":1500,
+					"subtitle":"press ~ to enter fullscreen mode", 
+                    "subtitle_speed":"1000,4000", "subtitle_color":"#00d2ff", "subtitle_pos":55, "subtitle_size":130 }'>          
+
+        	    
+                <!-- INDIANA JONES -->
+    			<div class="JAG_Char" data-name="Indiana Jones"
+                	data-character='{ "scale":"0.25,0.6", "pos":"65,82", "speed":6500, "y_speed":2 }'>
+				</div>
+                
+                <!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia"
+                	data-character='{ "scale":"0.25,0.6", "pos":"65,82", "speed":6500, "y_speed":2 }'>
+				</div>                  
+                
+                    
+				<!-- STONE CUP -->
+   			    <div class="JAG_Item" data-name="cup" 
+                	data-item='{ "type":"object", "pos":"0,0", "scale":1, "hidden":true, "inv_image":"cup_inv.png" }'
+                    data-item-indianajones='{ "inv_look_at_text":"An old stone cup.", "inv_look_at_voice":"stone_cup" }'>
+				</div>
+
+						
+				<!-- ICE -->
+   	    		<div class="JAG_Item ice" data-name="ice" 
+                	data-item='{ "type":"layer", "pos":"35,45" }'
+                    data-item-indianajones='{
+                        "pick_up_text":"I need a way to break it loose.", "pick_up_voice":"break_it_loose_1 %% break_it_loose_2",                            
+						"look_at_text":"Something is frozen in the ice.", "look_at_voice":"frozen_in_ice_1" }'>
+				</div>
+                
+                    
+	         	<!-- EXIT TO CENTRAL ROOM -->
+	            <div class="JAG_Item ice_caves_exit1" data-name="door to catacombs"
+                	data-item='{ "type":"exit", "pos":"20,95", "goto":"main_catacombs", "exit_overlap":"10,10",
+                        "look_at_text":"The door leads back to the central room.",
+                        "next_pos":"75,45" }'
+                        
+                    data-item-indianajones='{
+                        "look_at_voice":"doorway_to_central_room_1 %% doorway_to_central_room_2", "next_image":"indy_still_left" }'
+					data-item-sophia='{ "next_image":"sophia_still_left" }'>   
+				</div>
+                        
+                        
+                <!-- EXIT TO CATACOMBS ENTRANCE -->    
+	            <div class="JAG_Item ice_caves_exit2" data-name="catacomb entrance"
+                	data-item='{
+                    	"type":"exit", "pos":"80,13", "goto":"catacomb_entrance", 
+                        "look_at_text":"It&apos;s the entrance to the catacombs.", "look_at_voice":"entrance_to_catacombs_1 %% entrance_to_catacombs_2",
+						"next_pos":"42,85" }'
+                        
+					data-item-indianajones='{ "next_image":"indy_still_right" }'
+                    data-item-sophia='{ "next_image":"sophia_still_right" }'>
+				</div>
+			</li>    
+
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+		<!--==========================================================
+			================== CATACOMBS ENTRANCE ====================
+			==========================================================-->
+	    	<li id="catacomb_entrance" 
+            	data-scene='{
+					"background":"catacomb_entrance.png", "foreground":"catacomb_entrance_foreground.png", 
+                    "horizon":"0,140", 
+	                "music":"desert", "music_volume":0.4, "music_vol_speed":2500,
+                    "ambient":"ambient_wind", "ambient_volume":0.5, "ambient_vol_speed":1500 }'>          
+
+        	    
+                <!-- INDIANA JONES -->
+	    		<div class="JAG_Char" data-name="Indiana Jones" 
+                	data-character='{ "scale":"0.35,0.6", "pos":"65,82", "speed":8000, "y_speed":2 }'>
+				</div>
+                    	
+                <!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia"
+                	data-character='{ "scale":"0.35,0.6", "pos":"65,82", "speed":8000, "y_speed":2 }'>
+				</div>                   
+                        
+			    
+                <!-- JEEP -->
+   	    		<div class="JAG_Item jeep" data-name="jeep"
+                	data-item='{ "type":"layer", "pos":"25,20", "current_marker":"Catacombs" }'
+                    data-item-indianajones='{                    
+                        "look_at_text":"She&apos;s ready to go.", "look_at_voice":"shes_ready_1",
+                        "use":[
+							["goto:map,2500"],
+                            ["say:Time to get out of here."],
+                            ["voice:time_to_get_out_of_here"]
+						] }'
+                        
+                    data-item-sophia='{
+                      "use":[
+							["goto:map,2500"],
+                            ["say:I think I&apos;m done here."]
+						] }'>
+				</div>
+                
+                                
+				<!-- CRATE -->
+   	    		<div class="JAG_Item box" data-name="crate" 
+						data-item='{ "type":"layer", "pos":"63,80", "image":"box.png" }'
+                        data-item-indianajones='{
+                            "open_text":"Nah, it&apos;s just the typical supplies.", "open_voice":"typical_supplies_1 %% typical_supplies_2",
+                            "look_at_text":"Hmmm... just some supplies,<br>nothing special.", "look_at_voice":"just_supplies_1 %% just_supplies_2" }'>
+				</div>
+
+
+				<!-- ROCK [ LAYERING ELEMENT ] -->
+		        <div class="JAG_Item rock" data-name="rock_layer"
+                	data-item='{ "type":"layer", "scale":"1", "image":"rock.png", "pos":"21.8,35.5", "show_name":false }'>
+				</div>
+                                                                        
+		        
+                <!-- EXIT TO ICE CAVES -->
+    			<div class="JAG_Item catacomb_entrance_exit1" data-name="catacomb entrance"
+                	data-item='{ "type":"exit", "pos":"18,75", "goto":"ice_cave", "exit_overlap":"10,10", "next_pos":"78,45" }'
+                    data-item-indianajones='{
+                        "look_at_text":"It leads back into the catacombs.",
+                        "look_at_voice":"leads_back_to_catacombs_1 %% leads_back_to_catacombs_2",
+						"next_image":"indy_still_down" }'>
+				</div>
+                
+                
+                <!-- EXIT TO DESERT EXPANSE -->                
+				<div class="JAG_Item catacomb_entrance_exit2" data-name="desert expanse"
+                	data-item='{ "type":"exit", "pos":"35,28", "goto":"desert_expanse", "exit_overlap":"50,95" }'
+                    data-item-indianajones='{                        
+                        "look_at_text":"Nothing for miles.", "look_at_voice":"nothing_for_miles_1 %% nothing_for_miles_2",
+       	    			"next_image":"indy_still_left" }'>
+				</div>
+			</li>    
+            
+            
+            
+            
+            
+            
+            
+            
+		<!--==========================================================
+			====================== DESERT EXPANSE ====================
+			==========================================================-->
+			<li id="desert_expanse" 
+            	data-scene='{
+					"background":"desert.png", 
+                    "horizon":"0,140", 
+	                "music":"desert", "music_volume":0.4, "music_vol_speed":2500,
+                    "ambient":"ambient_wind", "ambient_volume":1, "ambient_vol_speed":1500 }'>
+
+
+           		<!-- INDIANA JONES -->
+				<div class="JAG_Char" data-name="Indiana Jones"
+                	data-character='{ "scale":"0.4,0.6", "pos":"95,95", "speed":7500 }'
+                    data-character-indianajones='{
+						"entrance":[
+                        	["walk_to:70,95,300"],
+                            ["say_after:Not much out this way."],
+                            ["voice:not_much_out_this_way_1 %% not_much_out_this_way_2"]
+						] }'>
+				</div>
+                
+                <!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia"
+                	data-character='{ "scale":"0.4,0.6", "pos":"95,95", "speed":7500,
+                    	"entrance":[
+                        	["walk_to:70,95,300"],
+                            ["say_after:I&apos;m not walking any further."]
+						] }'>
+				</div>                    
+                
+                                    
+				<!-- VASE -->
+				<div class="JAG_Item" data-name="vase" 
+                	data-item='{ "type":"object", "pos":"50,72", "scale":0.3, "image":"vase.png", "inv_image":"vase_inv.png" }'
+                    data-item-indianajones='{
+                        "pick_up":[
+                        	["say:I poured all of the sand out."],
+                            ["voice:poured_sand_out_1 %% poured_sand_out_2"]
+						],
+   			    	    "look_at_text":"Looks like it has been here awhile.", "look_at_voice":"been_here_awhile_1 %% been_here_awhile_2",
+                        "inv_look_at_text":"It might still be able to hold liquid.", "inv_look_at_voice":"might_hold_liquid_1" }'>
+				</div>
+                
+                    
+				<!-- EXIT TO CATACOMBS ENTRANCE -->
+				<div class="JAG_Item desert_expanse_exit1" data-name="dig entrance"
+					data-item='{ "type":"exit", "pos":"50,95", "goto":"catacomb_entrance", "exit_overlap":"10,10", "next_pos":"40,62" }'
+                    data-item-indianajones='{ "next_image":"indy_still_down" }'>
+				</div>
+			</li>  
+
+
+
+
+
+
+
+		<!--==========================================================
+			================= BARNETT COLLEGE LOBBY ==================
+			==========================================================-->
+			<li id="barnett_entrance" 
+            	data-scene='{
+					"background":"barnett_college_entrance.png", 
+                    "horizon":"0,140", "pan":true, "pan_pos":100,
+	                "music":"campus", "music_volume":0.4, "music_vol_speed":2500,
+	                "subtitle":"barnett college campus", "subtitle_speed":"3000,5000", 
+                    "subtitle_color":"#FFFFFF", "subtitle_pos":"55" }'>          
+
+
+				<!-- INDIANA JONES -->
+				<div class="JAG_Char" data-name="Indiana Jones"
+                	data-character='{
+						"scale":"0.4,0.6", "pos":"75,91", "speed":6000, "direction":"left",
+						"entrance":[
+                        	["repeat_count:1"],
+                            ["walk_to:25,95,200"]
+						]}'>
+				</div>
+                
+                <!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia"
+                	data-character='{
+						"scale":"0.4,0.6", "pos":"75,91", "speed":6000, "direction":"left",
+						"entrance":[
+                        	["repeat_count:1"],
+                            ["walk_to:25,95,200"]
+						]}'>
+				</div>                  
+
+
+				<!-- RAILING FOR STAIRS -->
+				<div class="JAG_Item railing" data-name="railing" 
+                	data-item='{ "type":"layer", "pos":"25.5,35", "image":"railing.png", "show_name":false }'>
+				</div>
+
+
+				<!-- BULLETIN BOARD -->
+				<div class="JAG_Item bulletin" data-name="bulletin board"
+                	data-item='{ "type":"object", "pos":"37,46" }'>
+				</div>
+
+
+				<!-- EXIT TO INDY'S OFFICE -->
+				<div class="JAG_Item college_exit1" data-name="Indy's Office"
+                	data-item='{ "type":"exit", "pos":"10,50", "goto":"office" }'
+                    data-item-indianajones='{ "next_image":"indy_still_down" }'>
+				</div>
+                
+                    
+                <!-- EXIT TO LIBRARY -->
+				<div class="JAG_Item college_exit2" data-name="Library" 
+                	data-item='{ "type":"exit", "pos":"20,30", "goto":"library" }'
+                    data-item-indianajones='{ "next_image":"indy_still_left" }'>
+				</div>
+                    
+                    
+                <!-- EXIT TO MAP -->
+				<div class="JAG_Item college_exit3" data-name="back to the mediterranean" 
+                	data-item='{ "type":"exit", "pos":"72,45", "goto":"map", "current_marker":"Plane back to Barnett College" }'
+                    data-item-indianajones='{ "next_image":"indy_still_left" }'>
+				</div>
+			</li> 
+
+
+
+
+
+
+          
+		<!--==========================================================
+			===================== INDY'S OFFICE ======================
+			==========================================================-->
+			<li id="office" 
+            	data-scene='{
+					"background":"office.png", 
+                    "horizon":"0,140",
+	                "music":"campus", "music_volume":0.4, "music_vol_speed":2500 }'>          
+
+
+				<!-- INDIANA JONES -->
+				<div class="JAG_Char" data-name="Indiana Jones" 
+                	data-character='{ "direction":"left", "scale":"0.6,0.6", "pos":"54,90", "speed":6000 }'
+                    data-character-indianajones='{
+						"entrance":[
+                        	["repeat_count:1"],
+                            ["walk_to:50,95,200"],
+                            ["say_after:Luckily the hordes<br/>of students aren&apos;t here now."],
+                            ["voice:hordes_of_students"]
+						]}'>
+				</div>
+                
+                <!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia"
+                	data-character='{ "direction":"left", "scale":"0.6,0.6", "pos":"54,90", "speed":6000 }'>
+				</div>                   
+
+
+				<!-- DESK -->
+				<div class="JAG_Item desk" data-name="desk"
+                	data-item='{ "type":"layer", "pos":"31,71.5", "image":"desk.png" }'
+                    data-item-indianajones='{
+						"look_at_text":"It&apos;s followed me as long as I&apos;ve been here.", "look_at_voice":"followed_me_1",
+                        "not_ready_text":"It&apos;s locked.", "not_ready_voice":"locked_1 %% locked_2",
+                        "open":[
+							["repeat_count:1"],                        
+                        	["must_have:desk key"],
+                            ["inv_add:lava_fountain_knife"],
+                            ["inv_remove:lava_fountain_desk key"],
+                        	["say:I confiscated this from one of the students.||Might be useful."],
+                            ["voice:confiscated_1"]
+                        ]}'>
+				</div>
+                    
+				
+                <!-- KNIFE -->
+				<div class="JAG_Item" data-name="knife" 
+                	data-item='{ "type":"object", "pos":"0,0", "hidden":true, "inv_image":"dagger_inv.png" }'
+                    data-item-indianajones='{ "inv_look_at_text":"Sharp.", "inv_look_at_voice":"sharp_1 %% sharp_2" }'>
+				</div>                    
+
+				
+                <!-- RAVEN STATUE -->
+				<div class="JAG_Item" data-name="raven statue" 
+                	data-item='{
+                    	"type":"object", "pos":"62,70.5", "scale":0.4,
+                    	"image":"bird_statue.png", "inv_image":"bird_statue_inv.png", "pick_up":true, "pick_up_text":false }'
+                        
+                    data-item-indianajones='{                        
+                        "look_at_text":"Found this one in the Amazon.", "look_at_voice":"found_in_amazon_1 %% found_in_amazon_2",
+                        "inv_look_at_text":"Found this one in the Amazon.", "inv_look_at_voice":"found_in_amazon_1 %% found_in_amazon_2" }'>
+				</div>                    
+
+
+				<!-- AMBER STATUE -->
+				<div class="JAG_Item" data-name="amber statue" 
+                	data-item='{
+                    	"type":"object", "pos":"68,58.5", "scale":0.5, "pick_up":true, "pick_up_text":false, 
+						"image":"arrow_statue.png", "inv_image":"arrow_statue_inv.png" }'
+                        
+                    data-item-indianajones='{
+						"look_at_text":"An odd statue made of amber.", "look_at_voice":"amber_statue_1",
+                        "inv_look_at_text":"An odd statue made of amber.", "inv_look_at_voice":"amber_statue_1"}'>
+				</div>                    
+
+
+				<!-- EXIT BACK TO BARNETT LOBBY -->
+				<div class="JAG_Item office_exit1" data-name="barnett college lobby" 
+                	data-item='{
+                    	"type":"exit", "pos":"50,55", "goto":"barnett_entrance", "exit_overlap":"15,75",
+                        "next_pan":0, "next_pos":"20,90", "next_direction":"right" }'
+                    data-item-indianajones='{ "next_image":"indy_still_down" }'>
+				</div>
+			</li>          
+
+
+
+
+
+
+                        
+		<!--==========================================================
+			=================== COLLEGE LIBRARY ======================
+			==========================================================-->
+			<li id="library" 
+            	data-scene='{
+					"background":"library.png", "foreground":"library_foreground.png",
+                    "horizon":"30,130", 
+	                "music":"campus", "music_volume":0.4, "music_vol_speed":2500 }'>          
+
+				<!-- INDIANA JONES -->
+				<div class="JAG_Char" data-name="Indiana Jones"
+                	data-character='{ "scale":"0.4,0.7", "pos":"35,65", "speed":6000 }'
+                    data-character-indianajones='{
+						"entrance":[
+                        	["repeat_count:1"],
+                            ["walk_to:28,67,200"],
+                            ["say_after:It looks like they&apos;re<br/>still remodeling."],
+                            ["voice:still_remodeling_1 %% still_remodeling_2"]
+						]}'>
+				</div>
+                
+                <!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia"
+                	data-character='{ "scale":"0.4,0.7", "pos":"35,65", "speed":6000,
+    			        "entrance":[
+	                       	["repeat_count:999"],
+                            ["walk_to:28,67,200"] 
+                        ] }'>
+				</div>                       
+                
+                        
+				<!-- BOOK -->
+    	    	<div class="JAG_Item book" data-name="book" 
+                	data-item='{ "type":"object", "pos":"75.5,51", "scale":1, "inv_image":"book_inv.png" }'
+                    data-item-indianajones='{
+                        "pick_up":[
+                        	["say:This looks interesting."],
+                            ["voice:looks_interesting_1 %% looks_interesting_2"]
+                        ],
+                        "inv_open":[
+                        	["show:map_Desert Dig, 0"],
+                            ["say:Hmmm... according to this,<br/>Dr. Stewart was tracking<br/>the lost civilization.||No one has seen him since his last dig.||It isn&apos;t much,<br/>but might be worth looking into."],
+                            ["voice:worth_looking_into_1"]
+                        ], 
+            			"look_at_text":"This one doesn&apos;t look familiar.", "look_at_voice":"doesnt_look_familiar",
+                        "inv_look_at_text":"The cover has a<br/>picture of Dr. Stewart.", "inv_look_at_voice":"cover_has_picture_1" }'>
+				</div>
+				
+                
+                <!-- CHAIR [ LAYERING ELEMENT ] -->
+				<div class="JAG_Item chair" data-name="chair" 
+                	data-item='{ "show_name":false, "type":"layer", "pos":"40.75,32.5", "image":"chair.png" }'>
+				</div>
+                
+                <!-- BOXES [ LAYERING ELEMENTS ] -->
+				<div class="JAG_Item library_boxes1" data-name="boxes1" 
+                	data-item='{ "show_name":false, "type":"layer", "pos":"14.75,67", "image":"library_boxes1.png" }'>
+				</div>
+				
+                <div class="JAG_Item library_boxes2" data-name="boxes2"
+                	data-item='{ "show_name":false, "type":"layer", "pos":"31.35,60", "image":"library_boxes2.png" }'>
+				</div>                
+                    
+				<!-- EXIT TO BARNETT LOBBY -->
+				<div class="JAG_Item library_exit1" data-name="barnett college lobby"
+                	data-item='{
+                    	"type":"exit", "pos":"22,40", "goto":"barnett_entrance", 
+                        "exit_overlap":"10,60", "next_pan":0, "next_pos":"20,85" }'  
+                    data-item-indianajones='{ "next_image":"indy_still_left" }'>
+				</div>
+			</li>                              
+                          
+             
+
+
+
+
+             
+		<!--==========================================================
+			==================== BENGHAZI DOCKS ======================
+			==========================================================-->
+			<li id="benghazi_docks" 
+            	data-scene='{
+					"background":"benghazi_docks.png", 
+                    "horizon":"40,120", "pan":true, "pan_pos":0,
+	                "music":"jungle", "music_volume":0.4, "music_vol_speed":2500,
+					"ambient":"ambient_waves", "ambient_volume":0.15, "ambient_vol_speed":0,
+        	        "fog":true, "fog_density":50, "fog_opacity":1, "fog_speed":1 }'>          
+				
+                
+                <!-- INDIANA JONES -->
+				<div class="JAG_Char" data-name="Indiana Jones"
+                	data-character='{ "scale":"0.4,0.65", "pos":"20,95", "speed":5800, "entrance":[["walk_to:90,99,200"]] }'>
+				</div>
+                
+                <!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia"
+                	data-character='{ "scale":"0.4,0.65", "pos":"40,95", "speed":5800, "entrance":[["walk_to:90,99,200"]] }'
+
+                    data-character-indianajones='{
+    	                "look_at_text":"Exactly how I remember her, down to the pixel.",
+        	            "look_at_voice":"exactly_1",
+            	        "pick_up_text":"You don&apos;t have the game.",       
+                	    "pick_up_voice":"dont_have_game",                    
+                    	"push_text":"Why would you want to do that? || You and Sophia go way back.",
+	                    "push_voice":"you_and_sophia_1 %% you_and_sophia_2",
+						"talk_to_text":[
+    		                [["How did you get here so quickly!?! || I have my ways."]],
+                	        [
+   	                	    	["Have you heard anything about this lost civilization? || I heard that Dr. Stewart was on to something."],
+                        	    ["It is rumored that this civilization had knowledge of the afterlife. || I&apos;ve kept up, and it has intrigued me."]
+	       	                ]
+    	                ],
+        	            "talk_to_voice":[
+            	        	[["get_here_quickly_1 || sophia_have_ways"]],
+                        	[
+                        		["heard_about_lost_civilization_2 || sophia_on_to_something"],
+	                            ["knowledge_of_afterlife_2 || sophia_intrigued"]
+    	                    ]
+        	            ],                    
+   	        	        "done_talking":[
+       	        	    	["say:Enough talking - time to board."],
+                    	    ["voice:time_to_board_1"],
+           	            	["walk_to:65,96,500"],
+	                        ["show:benghazi_docks_board boat, 0"],
+    	                    ["hide:benghazi_docks_boat, 0"]
+						] }'>
+				</div>                   
+
+
+				<!-- BOAT -->
+    	    	<div class="JAG_Item boat" data-name="boat"
+                	data-item='{ "type":"layer", "pos":"50,57", "scale":0.3 }'
+                        
+                    data-item-indianajones='{
+	            		"look_at_text":"A two-person boat.||I&apos;ve seen worse.", "look_at_voice":"2_person_boat_1 %% 2_person_boat_2", 
+						"use_text":"I can&apos;t drive this thing by myself.<br/>It needs two people.", "use_voice":"needs_2_people_1" }'>
+				</div>
+
+
+				<!-- EXIT ON BOAT -->
+				<div class="JAG_Item boat_exit" data-name="board boat"
+                	data-item='{ "type":"exit", "hidden":true, "exit_overlap":"10,10", "pos":"50,57", "goto":"credits" }'>
+				</div>
+			</li>                     
+               
+               
+               
+               
+               
+               
+               
+               
+               
+		<!--==========================================================
+			======================= DESERT DIG =======================
+			==========================================================-->
+			<li id="desert_dig" 
+            	data-scene='{
+					"background":"dig.png", "foreground":"desert_entrance_foreground.png",
+                    "horizon":"30,140", "pan":true, "pan_pos":100, 
+	                "music":"ruins", "music_volume":0.7, "music_vol_speed":500,
+    	            "ambient":"ambient_wind", "ambient_volume":0.5, "ambient_vol_speed":500 }'>          
+
+				
+                <!-- INDIANA JONES -->
+				<div class="JAG_Char" data-name="Indiana Jones" 
+                	data-character='{ "scale":"0.2,0.6", "pos":"85,75", "speed":8000, "y_speed":2.5 }'
+                    data-character-indianajones='{
+						"entrance":[
+                    		["repeat_count:1"],
+	                        ["walk_to:75,40,200"],
+    	                    ["say_after:This is Dr. Stewart&apos;s dig.||But where is he?"],
+        	                ["voice:this_is_dig_1"]
+						] }'>
+				</div>
+                
+                
+                <!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia"
+                	data-character='{ "scale":"0.2,0.6", "pos":"85,75", "speed":8000, "y_speed":2.5,
+	                    "entrance":[
+                    		["repeat_count:999"],
+	                        ["walk_to:75,40,200"]
+						] }'>
+				</div>    
+                
+
+				<!-- TRUCK -->
+   		    	<div class="JAG_Item truck" data-name="truck"
+                	data-item='{ "type":"layer", "pos":"60.5,45.5", "image":"truck.png", "proximity":500, "current_marker":"Desert Dig" }'
+                    
+                    data-item-indianajones='{
+	                    "look_at_text":"Not my first pick.", "look_at_voice":"not_first_pick_1 %% not_first_pick_2",
+						"use":[
+        	            	["say:Time to move on."],
+            	            ["voice:move_on_1"],
+                	        ["goto:map,2500"]
+                    	]}'
+					data-item-sophia='{
+                    	"look_at_text":"It&apos;s fancy.",
+                        "use":[
+                        	["say:I&apos;ve had enough of the desert."],
+                            ["goto:map,2500"]
+                        ] }'>
+				</div>
+
+
+				<!-- EXIT TO DIG -->
+				<div class="JAG_Item dig_exit1" data-name="excavation area"
+                	data-item='{ "type":"exit",  "pos":"30,50", "goto":"in_dig" }'
+                    data-item-indianajones='{ "next_image":"indy_still_down" }'>
+				</div>
+			</li>
+            
+
+
+
+
+
+            
+            
+		<!--==========================================================
+			========================== IN DIG ========================
+			==========================================================-->
+			<li id="in_dig" 
+            	data-scene='{
+					"background":"in_dig.png", "foreground":"in_dig_foreground.png",
+                    "horizon":"50,120", "pan":true, "pan_pos":50, 
+	                "music":"ruins", "music_volume":0.5, "music_vol_speed":500,
+    				"ambient":"ambient_wind", "ambient_volume":0.1, "ambient_vol_speed":500 }'>          
+				
+                
+                <!-- INDIANA JONES -->
+				<div class="JAG_Char" data-name="Indiana Jones"
+                	data-character='{ "scale":"0.2,0.6", "pos":"45,68", "speed":6500, "entrance":[["walk_to:60,80,200"]] }'>
+				</div>
+                
+
+                <!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia"
+					data-character='{  "scale":"0.2,0.6", "pos":"45,68", "speed":6500, "entrance":[["walk_to:60,80,200"]] }'>
+				</div>                
+
+
+				<!-- TICKET -->
+    		    <div class="JAG_Item ticket" data-name="paper"
+                	data-item='{ 
+                    	"type":"layer", "layer":12, "pos":"70,75", "scale":0.10,
+                        "image":"ticket.png", "inv_image":"ticket_inv.png" }'
+                    
+                    data-item-indianajones='{ 
+            			"look_at_text":"There&apos;s something on the table.", "look_at_voice":"something_on_table_1",
+                        "inv_look_at_text":"It has Sophia&apos;s address.", "inv_look_at_voice":"sophias_address_1",
+                        "pick_up":[
+                        	["show:map_Sophias Apartment, 0"],
+                            ["say:How strange...||A piece of paper with Sophia&apos;s address.<br>I wonder if she knows anything..."],
+                            ["voice:how_strange_1"]
+						] }'>
+				</div>   
+
+
+				<!-- BENCH [ LAYERING ELEMENT ] -->
+   			    <div class="JAG_Item dig_bench" data-name="bench"
+                	data-item='{ "show_name":false, "type":"layer", "pos":"59.25,66", "image":"dig_bench.png" }'>
+				</div>
+
+
+				<!-- EXIT TO DIG SURFACE -->
+				<div class="JAG_Item exit_in_dig" data-name="excavation area exit"
+                	data-item='{ "type":"exit", "pos":"40,40", "goto":"desert_dig", "next_pos":"80,52", "next_pan":100 }'
+                    data-item-indianajones='{ "next_image":"indy_still_right" }'>
+				</div>
+			</li>
+
+
+
+
+
+
+
+
+		<!--==========================================================
+			===================== CITY STREET ========================
+			==========================================================-->
+			<li id="city_street" 
+            	data-scene='{
+					"background":"city_street.png", "foreground":"city_street_foreground.png",
+                    "horizon":"50,120", 
+	                "music":"apartment", "music_volume":0.25, "music_vol_speed":0,
+					"ambient":"ambient_city", "ambient_volume":0.2, "ambient_vol_speed":100,
+					"weather":"rain", "weather_speed":15, "weather_density":700, "weather_size":"0.75,20",
+					"weather_opacity":0.35, "weather_color":["#FFFFFF","#ccccff","#ccffff"], 
+                    "day_night":"10000,0,20", "indoor":false, "day_night_image":114, 
+                    "night_color":"#e1f7fa", "day_night_opacity":"0,0.2",
+                   	"fog":true, "fog_image":113, "fog_density":100, "fog_speed":1, "fog_opacity":0.9 }'>          
+                    
+                    
+				<!-- INDIANA JONES -->
+				<div class="JAG_Char" data-name="Indiana Jones"
+                	data-character='{ "scale":"0.45,0.6", "pos":"60,90", "speed":6000 }'
+                    data-character-indianajones='{
+						"entrance":[
+                        	["repeat_count:1"],
+                            ["walk_to:55,85,200"],
+                            ["say:This is Sophia&apos;s place."],
+                            ["voice:sophias_place"]
+						] }'>
+				</div>
+                
+                <!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia"
+					data-character='{  "scale":"0.45,0.6", "pos":"60,90", "speed":6000 }'>
+				</div>                
+                    
+                        
+				<!-- PLANT [ LAYERING ELEMENT ] -->
+   			    <div class="JAG_Item plant" data-name="plant"
+                	data-item='{ "show_name":false, "type":"layer", "image":"plant.png", "pos":"20,34" }'>
+				</div>
+
+
+				<!-- CAR -->
+		        <div class="JAG_Item car" data-name="car" 
+                	data-item='{ "type":"layer", "pos":"60,60", "proximity":500, "current_marker":"Sophias Apartment" }'
+
+					data-item-sophia='{
+						"use":[
+                        	["goto:map,2500"],
+                            ["say:Time to head out."]
+                         ] }'
+                         
+                    data-item-indianajones='{ "look_at_text":"I got a great spot.", "look_at_voice":"great_spot_1",
+						"use":[
+                        	["goto:map,2500"],
+                            ["say:Time to get out of here."],
+                            ["voice:time_to_get_out_of_here"]
+                         ] }'>
+				</div>
+                
+                        
+				<!-- EXIT TO SOPHIA'S APARTMENT -->
+				<div class="JAG_Item exit_city_street" data-name="apartment building entrance" 
+                	data-item='{ "type":"exit", "pos":"28,50", "goto":"apartment", "exit_overlap":"50,80" }'
+                    data-item-indianajones='{ "next_image":"indy_still_left" }'>
+				</div>
+			</li>
+
+
+
+
+
+
+
+
+
+
+
+		<!--==========================================================
+			================= SOPHIA'S APARTMENT =====================
+			==========================================================-->
+			<li id="apartment" 
+            	data-scene='{
+					"background":"apartment.png", 
+                    "horizon":"50,100", "text_time":150,
+	                "music":"apartment", "music_volume":0.3, "music_vol_speed":500,
+       				"ambient":"ambient_city", "ambient_volume":0.05, "ambient_vol_speed":100 }'>          
+                    
+				
+                <!-- INDIANA JONES -->
+				<div class="JAG_Char" data-name="Indiana Jones"
+                	data-character='{ "scale":"0.2,0.7", "direction":"left", "pos":"80,95", "speed":6000 }'>
+				</div>
+                            
+				
+                <!-- SOPHIA -->
+				<div class="JAG_Char" data-name="Sophia" 
+                	data-character='{ "proximity":350, "scale":"0.2,0.7", "pos":"55,90" }'
+                    
+                    data-character-indianajones='{
+						"push_text":"Why would you want to do that? || You and Sophia go way back.", 
+                        "push_voice":"you_and_sophia_1 %% you_and_sophia_2",
+                        "look_at_text":"Exactly how I remember her, down to the pixel.", 
+                        "look_at_voice":"exactly_1",
+		                "pick_up_text":"You don&apos;t have the game.", 
+                        "pick_up_voice":"dont_have_game",
+						"talk_to_text":[
+    		                [
+                            	["Well well... Sophia Hapgood. || Hello Jones."]
+                            ],
+                            [
+                            	["Remember Atlantis? || How could I forget?"]
+                            ],
+                            [
+                            	["This really is a nice apartment. || Thanks."],
+								["So why did you have to tear it up? || It&apos;s a long story.<br>You don&apos;t want to hear it."],
+								["Another one of your seances? || Something like that."]
+							],
+                            [
+                            	["Did you ever work with a Dr. Stewart? || Yeah, he&apos;s a good friend of mine.<br>What&apos;s wrong?"],
+							 	["No one has seen him. || He is at his excavation site and<br>was going to come here when he<br>was finished."],
+							 	["Yeah, I gathered as much. I found your address at the site. || So what do we do?"],
+							 	["Did you guys have plans? || We were going to the Benghazi Docks<br>to sail north to another site."]
+							]   
+						],
+						"talk_to_voice":[
+							[
+                            	["well_well_sophia_1 || sophia_hello_jones"]
+							],
+							[
+                            	["remember_atlantis_1 || sophia_how_forget"]
+							],
+                            [
+                            	["nice_apartment_1 || sophia_thanks"],
+								["tear_it_up_1 || sophia_long_story"],
+								["another_seance_1 || sophia_something_like_that"]
+							],
+                            [
+                            	["work_with_stewart_1 || sophia_whats_wrong"],
+								["no_one_seen_him_1 || sophia_at_site"],
+								["gathered_as_much_2 || sophia_what_do_we_do"],
+								["have_plans_1 || sophia_docks"]
+							]                            
+						],
+						"done_talking":[
+       			        	["say:Time to go to the Benghazi Docks."],
+                            ["voice:time_to_go_to_benghazi_1 %% time_to_go_to_benghazi_2"],
+                        	["char_move : sophia, benghazi_docks, 100, 95"],
+           	    		    ["walk_to:65,96,200"],
+                            ["show:map_Benghazi Docks, 0"]
+						],
+                        "talk_no_more_text":"She&apos;s going to meet me at the docks."                                                   
+					 }'>
+				</div>                               
+                        
+				
+                <!-- EXIT TO CITY STREET -->
+				<div class="JAG_Item exit_apartment" data-name="exit"
+                	data-item='{ "type":"exit", "pos":"95,50", "goto":"city_street", "exit_overlap":"10,10", "next_pos":"50,90" }'
+                	data-item-indianajones='{ "next_image":"indy_still_right" }' >
+				</div>
+			</li>                
+
+
+
+
+
+
+
+
+
+		<!--==========================================================
+			======================= CREDITS ==========================
+			==========================================================-->
+			<li id="credits" 
+            	data-scene='{
+	    			"background":"end.png", 
+                    "cutscene":true, "credits_speed":45000, "allow_click":"titlescreen",
+			    	"music":"theme", "music_volume":1, "music_vol_speed":2500,
+        	        "roll_credits":[
+            	    		["Continue the Adventure: with the Jaguar Adventure Game Engine<br><br><br><br>"],
+							["Jaguar Engine Development: Crusader12"],
+                	        ["Story &amp; Dialogue Writer: HeckSarah"],
+                        	["Background &amp; Sprites Art: LucasArts Indiana Jones<br>and the Fate of Atlantis"],
+    	                    ["Art Director: Penelope"],
+	                    	["Lead Programmer: Crusader12"],
+        	                ["Marketing &amp; Promotion: Envato Market / CodeCanyon"],
+            	            ["Intro Logo Animation: Will Alexander"],
+                	        ["Voice Acting: Rich Mirocco as Indiana Jones<br>HeckSarah as Sophia Hapgood"],
+							["Programmer&apos;s Assistant: Cat-Cat"],
+                        	["Dedicated Pirate Hunters (Copyright): DMCA Pro"],
+	                        ["Compliance &amp; Testing: HeckSarah"],
+    	                    ["Jaguar Contributors: Bruno Accioly<br>Will Alexander<br>FiluHalon<br>jdeep6<br>Dan Tighe<br>simirk<br>Jim Kulakowski"],
+        	                ["Jaguar is proudly exclusive to CodeCanyon. <br>Thanks for playing!<br><br><br><br><br><br><br><br><br><br><br><br>: The End"]
+					]
+				}'>
+			</li> 
+
+             
+             
+             
+             
+             
+             
+             
+		<!--==========================================================
+			==================== MAP CUTSCENE ========================
+			==========================================================-->                          
+			<li id="map" 
+            	data-scene='{
+	    			"background":"map.gif", "map":true, "speed":"500,400",
+	        	    "subtitle":"select a destination", "subtitle_pos":44, "subtitle_size":150, 
+                    "subtitle_speed":"800,2700", "subtitle_color":"#FFFFFF", "subtitle_repeat":true,
+			    	"music":"map", "music_volume":0.75, "music_vol_speed":2500 }'>          
+				
+                <!-- CATACOMBS DESTINATION -->
+   				<div class="JAG_Item JAG_Destination" data-name="Catacombs"
+                	data-item='{ "type":"exit", "pos":"30,70", "offset":"-6,-6", "goto":"catacomb_entrance", "next_pos":"35,45" }'>
+				</div>
+                
+                <!-- DESERT DIG DESTINATION -->
+				<div class="JAG_Item JAG_Destination" data-name="Desert Dig"
+                	data-item='{ "hidden":true, "type":"exit", "pos":"45,88", "offset":"-6,-6", "goto":"desert_dig" }'>
+				</div>   
+
+				<!-- SOPHIA'S APARTMENT DESTINATION -->
+				<div class="JAG_Item JAG_Destination" data-name="Sophias Apartment"
+                	data-item='{ "hidden":true, "type":"exit", "pos":"77,68", "offset":"-6,-6", "goto":"city_street" }'>
+				</div>   
+
+            	<!-- BENGHAZI DOCKS DESTINATION -->
+				<div class="JAG_Item JAG_Destination" data-name="Benghazi Docks"
+                	data-item='{ "hidden":true, "type":"exit", "pos":"72,68", "offset":"-6,-6", "goto":"benghazi_docks" }'>
+				</div>   
+
+				<!-- BARNETT COLLEGE DESTINATION -->
+				<div class="JAG_Item JAG_Destination" data-name="Plane back to Barnett College"
+                	data-item='{ "type":"exit", "pos":"9,60", "offset":"-6,-6", "goto":"barnett_entrance" }'>
+				</div>   
+			</li>                                                                                                         
+
+
+            
+	    </ul><!-- END CHAPTER -->
+	</div><!-- END GAME -->
+</div><!-- END GAME WRAPPER -->          
+</body></html>
